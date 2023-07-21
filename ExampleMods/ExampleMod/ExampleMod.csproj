@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net472</TargetFramework>
+        <RootNamespace>ExampleMod</RootNamespace>
+        <AssemblyName>ExampleMod</AssemblyName>
+
+        <MoonscarsPath>C:/Program Files (x86)/Steam/steamapps/common/Moonscars/Moonscars_Data/Managed</MoonscarsPath>
+        <LangVersion>10</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="Moonscars">
+            <HintPath>$(MoonscarsPath)/Assembly-CSharp.dll</HintPath>
+        </Reference>
+
+        <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>$(MoonscarsPath)/UnityEngine.CoreModule.dll</HintPath>
+        </Reference>
+
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MonoMod" Version="22.7.31.1"/>
+        <PackageReference Include="MonoMod.RuntimeDetour" Version="22.7.31.1"/>
+    </ItemGroup>
+
+    <Target Name="CopyMod" AfterTargets="PostBuildEvent">
+        <Message Importance="high" Text="copying $(TargetPath) to $(MoonscarsPath)/Mods/$(AssemblyPath)..."/>
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(MoonscarsPath)/Mods/$(AssemblyName)"/>
+        <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(MoonscarsPath)/Mods/$(AssemblyName)"/>
+    </Target>
+</Project>
