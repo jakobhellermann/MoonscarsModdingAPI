@@ -1,10 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="../LocalBuildProperties.props"/>
+
     <PropertyGroup>
         <TargetFramework>net472</TargetFramework>
         <RootNamespace>ModdingAPI</RootNamespace>
         <AssemblyName>Assembly-CSharp.ModdingAPI.mm</AssemblyName>
 
-        <MoonscarsPath>C:/Program Files (x86)/Steam/steamapps/common/Moonscars/Moonscars_Data/Managed</MoonscarsPath>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
@@ -40,7 +41,9 @@
         <Delete Condition="Exists('$(MoonscarsPath)/Backup/Assembly-CSharp.dll')" Files="$(MoonscarsPath)/Assembly-CSharp.dll"/>
         <Copy SourceFiles="$(MoonscarsPath)/Backup/Assembly-CSharp.dll" DestinationFiles="$(MoonscarsPath)/Assembly-CSharp.dll"/>
 
-        <Exec Command="MonoMod.exe Assembly-CSharp.dll Assembly-CSharp.patched.dll" WorkingDirectory="$(MoonscarsPath)"/>
+        <Exec Condition="'$(OS)' == 'Unix'" Command="wine MonoMod.exe Assembly-CSharp.dll Assembly-CSharp.patched.dll" WorkingDirectory="$(MoonscarsPath)"/>
+        <Exec Condition="'$(OS)' != 'Unix'" Command="MonoMod.exe Assembly-CSharp.dll Assembly-CSharp.patched.dll" WorkingDirectory="$(MoonscarsPath)"/>
+
         <Move SourceFiles="$(MoonscarsPath)/Assembly-CSharp.patched.dll" DestinationFiles="$(MoonscarsPath)/Assembly-CSharp.dll"/>
     </Target>
 </Project>

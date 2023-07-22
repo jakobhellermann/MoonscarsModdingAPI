@@ -1,10 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="../../LocalBuildProperties.props"/>
+
     <PropertyGroup>
         <TargetFramework>net472</TargetFramework>
         <RootNamespace>ExampleMod</RootNamespace>
         <AssemblyName>ExampleMod</AssemblyName>
 
-        <MoonscarsPath>C:/Program Files (x86)/Steam/steamapps/common/Moonscars/Moonscars_Data/Managed</MoonscarsPath>
         <LangVersion>10</LangVersion>
     </PropertyGroup>
 
