@@ -1,7 +1,6 @@
 #pragma warning disable CS0626
 
 using System;
-using System.Collections;
 using MonoMod;
 using UnityEngine.SceneManagement;
 

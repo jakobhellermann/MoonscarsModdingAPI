@@ -55,7 +55,7 @@ public static class ModLoader {
 
         AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 
-        Logger.Log("Loading mods");
+        Logger.LogDebug("Loading mods");
 
         var managedPath = SystemInfo.operatingSystemFamily switch {
             OperatingSystemFamily.Linux or OperatingSystemFamily.Windows => Path.Combine(Application.dataPath,
@@ -98,7 +98,8 @@ public static class ModLoader {
         }
 
         foreach (var asm in asms) {
-            Logger.Log($"Loading mods in assembly {asm.FullName}");
+            var name = asm.GetName();
+            Logger.Log($"Loading mods in assembly {name.Name} ({name.Version})");
 
             var foundMod = false;
             foreach (var ty in asm.GetTypes()) {
@@ -133,7 +134,7 @@ public static class ModLoader {
             mod.Enabled = true;
         }
 
-        Logger.Log("Finished loading mods");
+        Logger.LogDebug("Finished loading mods");
 
         var version = new GameObject();
         var draw = version.AddComponent<ModVersionUI>();

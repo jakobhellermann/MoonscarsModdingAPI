@@ -24,7 +24,6 @@ public static class Logger {
     }
 
     public static void LogDebug(string message) {
-        WriteToFile(message);
     }
 
     public static void LogError(string message) {
