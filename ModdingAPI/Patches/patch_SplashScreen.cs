@@ -19,5 +19,7 @@ public class patch_SplashScreen : MoonscarsUI.SplashScreen {
         } catch (Exception e) {
             Logger.LogError(e.ToString());
         }
+
+        SceneManager.LoadScene("HomeScreen", LoadSceneMode.Single);
     }
 }

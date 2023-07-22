@@ -16,10 +16,6 @@ public class ExampleMod : Mod {
     private Hook _playerDashHook;
 
     public override void Load() {
-        // Logger.Log("loaded ExampleMod!");
-        // On.PlayerPawn.Dash += OnDash;
-        // Logger.Log("added OnDash");
-
         _playerDashHook = new Hook(
             typeof(PlayerPawn).GetMethod("Dash", BindingFlags.Instance | BindingFlags.Public),
             typeof(ExampleMod).GetMethod("HookDash", BindingFlags.Static | BindingFlags.Public)
