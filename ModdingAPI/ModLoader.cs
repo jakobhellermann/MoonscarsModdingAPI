@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using UnityEngine;
 using Application = UnityEngine.Device.Application;
+using Object = UnityEngine.Object;
 
 namespace ModdingAPI;
 
@@ -133,7 +135,31 @@ public static class ModLoader {
 
         Logger.Log("Finished loading mods");
 
+        var version = new GameObject();
+        var draw = version.AddComponent<ModVersionUI>();
+        Object.DontDestroyOnLoad(version);
+        draw.drawString = ModVersionText();
+
         _loadState = ModLoadState.Loaded;
+    }
+
+    private static string ModVersionText() {
+        var builder = new StringBuilder();
+
+        foreach (var instance in ModInstances.Values) {
+            var status = instance.ErrorState switch {
+                ModErrorState.Construct => "Failed to call constructor! Check ModLog.txt",
+                ModErrorState.Load => "Failed to load! Check ModLog.txt",
+                ModErrorState.Duplicate => "Failed to Load! Duplicate Mod detected",
+                ModErrorState.Unload => "Failed to unload! Check ModLog.txt",
+                null => $"{instance.Mod?.Version() ?? "Failed to get version"}",
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            builder.AppendLine($"{instance.Name}: {status}");
+        }
+
+        return builder.ToString();
     }
 
     private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e) {
