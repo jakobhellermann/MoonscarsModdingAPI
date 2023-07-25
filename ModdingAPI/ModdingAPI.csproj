@@ -44,6 +44,9 @@
         <Exec Condition="'$(OS)' == 'Unix'" Command="wine MonoMod.exe Assembly-CSharp.dll Assembly-CSharp.patched.dll" WorkingDirectory="$(MoonscarsPath)"/>
         <Exec Condition="'$(OS)' != 'Unix'" Command="MonoMod.exe Assembly-CSharp.dll Assembly-CSharp.patched.dll" WorkingDirectory="$(MoonscarsPath)"/>
 
+        <Exec Condition="'$(OS)' == 'Unix'" Command="wine MonoMod.RuntimeDetour.HookGen.exe Assembly-CSharp.dll MMHOOK_Assembly-CSharp.dll" WorkingDirectory="$(MoonscarsPath)"/>
+        <Exec Condition="'$(OS)' != 'Unix'" Command="MonoMod.RuntimeDetour.HookGen.exe Assembly-CSharp.dll MMHOOK_Assembly-CSharp.dll" WorkingDirectory="$(MoonscarsPath)"/>
+
         <Move SourceFiles="$(MoonscarsPath)/Assembly-CSharp.patched.dll" DestinationFiles="$(MoonscarsPath)/Assembly-CSharp.dll"/>
     </Target>
 </Project>

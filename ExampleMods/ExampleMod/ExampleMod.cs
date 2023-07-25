@@ -1,13 +1,9 @@
-﻿using System;
-using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System.Reflection;
 using JetBrains.Annotations;
 using ModdingAPI;
-using MonoMod.RuntimeDetour;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Logger = ModdingAPI.Logger;
-using Object = UnityEngine.Object;
 
 namespace ExampleMod;
 
@@ -17,7 +13,6 @@ public class ExampleMod : Mod {
 
     public override string Version() => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-    private Hook _playerDashHook = null!;
     private InputActionMap _actionMap = null!;
 
     private static void DebugAllEntities() {
@@ -62,23 +57,16 @@ public class ExampleMod : Mod {
         map.Enable();
         _actionMap = map;
 
-        _playerDashHook = new Hook(
-            typeof(PlayerPawn).GetMethod("Dash", BindingFlags.Instance | BindingFlags.Public),
-            typeof(ExampleMod).GetMethod("HookDash", BindingFlags.Instance | BindingFlags.Public),
-            this
-        );
+        On.PlayerPawn.Dash += HookedDash;
     }
 
     public override void Unload() {
-        _playerDashHook.Dispose();
         _actionMap.Dispose();
+        On.PlayerPawn.Dash -= HookedDash;
     }
 
-    [UsedImplicitly]
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    public void HookDash(Action<PlayerPawn> orig, PlayerPawn player) {
+    private static void HookedDash(On.PlayerPawn.orig_Dash orig, PlayerPawn player) {
         orig(player);
-
         var field = typeof(PlayerPawn).GetField("_dashCooldown", BindingFlags.NonPublic | BindingFlags.Instance)!;
         field.SetValue(player, 0.0f);
     }

@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="../../LocalBuildProperties.props" />
+    <Import Project="../../LocalBuildProperties.props"/>
 
     <PropertyGroup>
         <TargetFramework>net472</TargetFramework>
@@ -13,6 +13,9 @@
     <ItemGroup>
         <Reference Include="Moonscars">
             <HintPath>$(MoonscarsPath)/Assembly-CSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="MoonscarsHookgen">
+            <HintPath>$(MoonscarsPath)/MMHOOK_Assembly-CSharp.dll</HintPath>
         </Reference>
 
         <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
@@ -39,13 +42,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="MonoMod" Version="22.7.31.1" />
-        <PackageReference Include="MonoMod.RuntimeDetour" Version="22.7.31.1" />
+        <PackageReference Include="MonoMod" Version="22.7.31.1"/>
+        <PackageReference Include="MonoMod.RuntimeDetour" Version="22.7.31.1"/>
     </ItemGroup>
 
     <Target Name="CopyMod" AfterTargets="PostBuildEvent">
-        <Message Importance="high" Text="copying $(TargetPath) to $(MoonscarsPath)/Mods/$(AssemblyPath)..." />
-        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(MoonscarsPath)/Mods/$(AssemblyName)" />
-        <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(MoonscarsPath)/Mods/$(AssemblyName)" />
+        <Message Importance="high" Text="copying $(TargetPath) to $(MoonscarsPath)/Mods/$(AssemblyPath)..."/>
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(MoonscarsPath)/Mods/$(AssemblyName)"/>
+        <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(MoonscarsPath)/Mods/$(AssemblyName)"/>
     </Target>
 </Project>
